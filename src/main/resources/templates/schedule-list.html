@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}" th:with="activePage='schedules'">
+
+<head>
+	<title>Schedule List</title>
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<h2>Email Schedules</h2>
+		<a href="/schedules/new" class="btn btn-primary mb-3">New Schedule</a>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Recipients</th>
+					<th>Type</th>
+					<th>Time Config</th>
+					<th>Cron</th>
+					<th>Template ID</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="s : ${schedules}">
+					<td th:text="${s.id}">ID</td>
+					<td th:text="${s.recipients}">Recipients</td>
+					<td th:text="${s.type}">Type</td>
+					<td th:text="${s.timeConfig}">Time Config</td>
+					<td th:text="${s.cronExpression}">Cron</td>
+					<td th:text="${s.templateId}">Template ID</td>
+					<td>
+						<a th:href="@{'/schedules/edit/' + ${s.id}}" class="btn btn-warning btn-sm">Edit</a>
+						<a th:href="@{'/schedules/delete/' + ${s.id}}" class="btn btn-danger btn-sm"
+							onclick="return confirm('Are you sure?')">Delete</a>
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+		<div th:if="${#lists.isEmpty(schedules)}">
+			<p>No schedules found.</p>
+		</div>
+	</section>
+</body>
+
+</html>

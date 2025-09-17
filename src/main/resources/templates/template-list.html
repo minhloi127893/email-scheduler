@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}">
+
+<head>
+	<title>Templates</title>
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<h2>Email Templates</h2>
+		<a href="/templates/new" class="btn btn-primary mb-2">New Template</a>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Subject</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="t : ${templates}">
+					<td th:text="${t.id}"></td>
+					<td th:text="${t.subject}"></td>
+					<td>
+						<a th:href="@{|/templates/edit/${t.id}|}" class="btn btn-sm btn-warning">Edit</a>
+						<a th:href="@{'/templates/delete/' + ${t.id}}"
+							th:classappend="${usedTemplateIds.contains(t.id)} ? 'disabled'"
+							th:attr="aria-disabled=${usedTemplateIds.contains(t.id)} ? 'true' : 'false'"
+							class="btn btn-danger btn-sm" th:if="${!usedTemplateIds.contains(t.id)}">Delete</a>
+						<span th:if="${usedTemplateIds.contains(t.id)}" class="text-muted">In Use</span>
+
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+</body>
+
+</html>
